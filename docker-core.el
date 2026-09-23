@@ -149,7 +149,7 @@ This collects all output before displaying, suitable for non-interactive command
   "Transient for docker."
   :man-page "docker"
   ["Arguments"
-   (5 "H" "Host" "--host " read-string)
+   (5 "H" "Host" "--host=" :always-read t :history-key docker-host)
    (5 "Tt" "TLS" "--tls")
    (5 "Tv" "TLS verify remote" "--tlsverify")
    (5 "Ta" "TLS CA" "--tlscacert" docker-read-certificate)

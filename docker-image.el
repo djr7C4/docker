@@ -260,9 +260,12 @@ The result is the tabulated list id for an entry is propertized with
   (aio-await (docker-run-docker-async "pull" (when all "-a") name))
   (tablist-revert))
 
+(defvar docker-image-tag-history nil
+  "History for Docker image tags.")
+
 (defun docker-image-run-selection (command)
   "Run \"docker image run\" with COMMAND on the images selection."
-  (interactive "sCommand: ")
+  (interactive (list (read-string "Command: " nil 'docker-container-command-history)))
   (docker-utils-ensure-items)
   (--each (docker-utils-get-marked-items-ids)
     (docker-run-docker-async-with-buffer-interactive "container" "run" (transient-args 'docker-image-run) it command)))
@@ -272,7 +275,7 @@ The result is the tabulated list id for an entry is propertized with
   (interactive)
   (docker-utils-ensure-items)
   (let* ((ids (docker-utils-get-marked-items-ids))
-         (promises (--map (docker-run-docker-async "tag" it (read-string (format "Tag for %s: " it))) ids)))
+         (promises (--map (docker-run-docker-async "tag" it (read-string (format "Tag for %s: " it) nil 'docker-image-tag-history)) ids)))
     (aio-await (aio-all promises))
     (tablist-revert)))
 
@@ -305,7 +308,7 @@ applied to the buffer."
          (remove default it)
          (cons default it))))
 
-(defun docker-image-read-runtime (prompt &rest _)
+(defun docker-image-read-runtime (prompt initial-input history)
   (completing-read prompt
                    (let ((runtimes (aio-wait-for (docker-image-runtimes))))
                      ;; Complete with the runtimes in the order given by
@@ -321,7 +324,9 @@ applied to the buffer."
                              (cycle-sort-function . identity))
                          (complete-with-action action runtimes string predicate))))
                    nil
-                   t))
+                   t
+                   initial-input
+                   history))
 
 (docker-utils-define-transient-arguments docker-image-ls)
 
@@ -331,7 +336,7 @@ applied to the buffer."
   ["Arguments"
    ("a" "All" "--all")
    ("d" "Dangling" "--filter dangling=true")
-   ("f" "Filter" "--filter " read-string)
+   ("f" "Filter" "--filter=" :history-key docker-filter :multi-value repeat)
    ("n" "Don't truncate" "--no-trunc")]
   ["Actions"
    ("l" "List" tablist-revert)])
@@ -384,26 +389,26 @@ applied to the buffer."
   :class 'docker-image-run-prefix
   ["Arguments"
    ("D" "With display" "-v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY")
-   ("M" "Mount volume" "--mount " read-string)
-   ("N" "Network" "--network " read-string)
+   ("M" "Mount volume" "--mount=" :history-key docker-container-mount :multi-value repeat)
+   ("N" "Network" "--network=" :always-read t :history-key docker-container-network)
    ("P" "Privileged" "--privileged")
    ("T" "Synchronize time" "-v /etc/localtime:/etc/localtime:ro")
    ("W" "Web ports" "-p 80:80 -p 443:443 -p 8080:8080")
    ("d" "Detach" "-d")
-   ("e" "Environment" "-e " read-string)
-   ("f" "Platform" "--platform " read-string)
+   ("e" "Environment" "-e=" :history-key docker-container-environment :multi-value repeat)
+   ("f" "Platform" "--platform=" :always-read t :history-key docker-container-platform)
    ("i" "Interactive" "-i")
-   ("l" "Link" "--link " read-string)
-   ("m" "Name" "--name " read-string)
-   ("n" "Entrypoint" "--entrypoint " read-string)
+   ("l" "Link" "--link=" :history-key docker-container-link :multi-value repeat)
+   ("m" "Name" "--name=" :always-read t :history-key docker-container-name)
+   ("n" "Entrypoint" "--entrypoint=" :always-read t :history-key docker-container-entrypoint)
    ("o" "Read only" "--read-only")
-   ("p" "Port" "-p " read-string)
+   ("p" "Port" "-p=" :history-key docker-container-port :multi-value repeat)
    ("r" "Remove container when it exits" "--rm")
    ("t" "TTY" "-t")
-   ("u" "User" "-u " read-string)
-   ("v" "Volume" "-v " read-string)
-   ("w" "Workdir" "-w " read-string)
-   ("x" "Runtime" "--runtime " docker-image-read-runtime)]
+   ("u" "User" "-u=" :always-read t :history-key docker-container-user)
+   ("v" "Volume" "-v=" :history-key docker-container-volume :multi-value repeat)
+   ("w" "Workdir" "-w=" :always-read t :history-key docker-container-workdir)
+   ("x" "Runtime" "--runtime=" docker-image-read-runtime :always-read t :history-key docker-container-runtime)]
   [:description docker-generic-action-description
    ("R" "Run" docker-image-run-selection)])
 

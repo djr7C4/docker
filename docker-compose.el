@@ -114,7 +114,7 @@
                 (-last-item (s-split "-" (symbol-name transient-current-command)))
                 (transient-args transient-current-command)
                 nil
-                (read-string "Command: ")))
+                (read-string "Command: " nil 'docker-container-command-history)))
   (setq service (aio-await (docker-compose-read-service-name)))
   (docker-compose-run-docker-compose-async-with-buffer action args service command))
 
@@ -122,7 +122,7 @@
   "Transient for \"docker-compose build\"."
   :man-page "docker-compose build"
   ["Arguments"
-   ("b" "Build argument" "--build-arg " read-string)
+   ("b" "Build argument" "--build-arg=" :history-key docker-compose-build-arg :multi-value repeat)
    ("c" "Compress build context" "--compress")
    ("f" "Always remove intermediate containers" "--force-rm")
    ("m" "Memory limit" "--memory " transient-read-number-N0)
@@ -173,9 +173,9 @@
    ("P" "Privileged" "--privileged")
    ("T" "Disable pseudo-tty" "-T")
    ("d" "Detach" "-d")
-   ("e" "Env KEY=VAL" "-e " read-string)
-   ("u" "User " "--user " read-string)
-   ("w" "Workdir" "--workdir " read-string)]
+   ("e" "Env KEY=VAL" "-e=" :history-key docker-container-environment :multi-value repeat)
+   ("u" "User " "--user=" :always-read t :history-key docker-container-user)
+   ("w" "Workdir" "--workdir=" :always-read t :history-key docker-container-workdir)]
   ["Actions"
    ("E" "Exec" docker-compose-run-action-with-command)])
 
@@ -183,7 +183,7 @@
   "Transient for \"docker-compose logs\"."
   :man-page "docker-compose logs"
   ["Arguments"
-   ("T" "Tail" "--tail " read-string)
+   ("T" "Tail" "--tail=" :always-read t :history-key docker-logs-tail)
    ("f" "Follow" "--follow")
    ("n" "No color" "--no-color")
    ("t" "Timestamps" "--timestamps")]
@@ -236,17 +236,17 @@
   :man-page "docker-compose run"
   :value '("--rm")
   ["Arguments"
-   ("E" "Entrypoint" "--entrypoint " read-string)
-   ("N" "Name" "--name " read-string)
+   ("E" "Entrypoint" "--entrypoint=" :always-read t :history-key docker-container-entrypoint)
+   ("N" "Name" "--name=" :always-read t :history-key docker-container-name)
    ("T" "Disable pseudo-tty" "-T")
    ("d" "Detach" "-d")
-   ("e" "Env KEY=VAL" "-e " read-string)
-   ("l" "Label" "--label " read-string)
+   ("e" "Env KEY=VAL" "-e=" :history-key docker-container-environment :multi-value repeat)
+   ("l" "Label" "--label=" :history-key docker-container-label :multi-value repeat)
    ("n" "No deps" "--no-deps")
    ("r" "Remove container when it exits" "--rm")
    ("s" "Enable services ports" "--service-ports")
-   ("u" "User " "--user " read-string)
-   ("w" "Workdir" "--workdir " read-string)]
+   ("u" "User " "--user=" :always-read t :history-key docker-container-user)
+   ("w" "Workdir" "--workdir=" :always-read t :history-key docker-container-workdir)]
   ["Actions"
    ("R" "Run" docker-compose-run-action-with-command)])
 
@@ -308,10 +308,10 @@
    ("d" "Project directory" "--project-directory " docker-compose-read-directory)
    ("e" "Environment file" "--env-file " docker-compose-read-environment-file)
    ("f" "Compose file" "--file " docker-compose-read-compose-file)
-   ("h" "Host" "--host " read-string)
+   ("h" "Host" "--host=" :always-read t :history-key docker-host)
    ("l" "Log level" "--log-level " docker-compose-read-log-level)
    ("p" "Project name" "--project-name " docker-compose-read-project)
-   ("r" "Profile" "--profile " read-string)
+   ("r" "Profile" "--profile=" :history-key docker-compose-profile :multi-value repeat)
    ("v" "Verbose" "--verbose")]
   [["Images"
     ("B" "Build"      docker-compose-build)
