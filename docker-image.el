@@ -213,12 +213,12 @@ The result is the tabulated list id for an entry is propertized with
   (docker-utils-refresh-entries
    (docker-image-entries-propertized (docker-image-ls-arguments))))
 
-(defvar docker-image-history nil
+(defvar docker-image-name-history nil
   "Docker image history.")
 
 (defun docker-image-read-name ()
   "Read an image name."
-  (completing-read "Image: " (-map #'car (aio-wait-for (docker-image-entries))) nil nil nil 'docker-image-history))
+  (completing-read "Image: " (-map #'car (aio-wait-for (docker-image-entries))) nil nil nil 'docker-image-name-history))
 
 (defvar-local docker-image-history-image nil
   "Image name used by the current history buffer.")
