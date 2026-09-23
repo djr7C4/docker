@@ -183,7 +183,7 @@ Also note if you do not specify `docker-container-exec-default-args', they will 
 
 (defun docker-container-read-name ()
   "Read an container name."
-  (completing-read "Container: " (-map #'car (aio-wait-for (docker-container-entries))) nil nil nil docker-container-name-history))
+  (completing-read "Container: " (-map #'car (aio-wait-for (docker-container-entries))) nil nil nil 'docker-container-name-history))
 
 (defvar eshell-buffer-name)
 
