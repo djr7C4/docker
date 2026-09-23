@@ -135,7 +135,7 @@ The result is the tabulated list id for an entry is propertized with
 
 (defun docker-volume-read-name ()
   "Read a volume name."
-  (completing-read "Volume: " (-map #'car (aio-wait-for (docker-volume-entries))) nil t nil 'docker-volume-history))
+  (completing-read "Volume: " (-map #'car (aio-wait-for (docker-volume-entries))) nil nil nil 'docker-volume-history))
 
 ;;;###autoload (autoload 'docker-volume-dired "docker-volume" nil t)
 (aio-defun docker-volume-dired (name)

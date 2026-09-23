@@ -218,7 +218,7 @@ The result is the tabulated list id for an entry is propertized with
 
 (defun docker-image-read-name ()
   "Read an image name."
-  (completing-read "Image: " (-map #'car (aio-wait-for (docker-image-entries))) nil t nil 'docker-image-history))
+  (completing-read "Image: " (-map #'car (aio-wait-for (docker-image-entries))) nil nil nil 'docker-image-history))
 
 (defvar-local docker-image-history-image nil
   "Image name used by the current history buffer.")
