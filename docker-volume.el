@@ -170,7 +170,7 @@ applied to the buffer."
   :man-page "docker-volume-ls"
   ["Arguments"
    ("d" "Dangling" "--filter dangling=true")
-   ("f" "Filter" "--filter " read-string)]
+   ("f" "Filter" "--filter=" :history-key docker-volume-filter :multi-value repeat)]
   ["Actions"
    ("l" "List" tablist-revert)])
 

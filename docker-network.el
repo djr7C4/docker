@@ -158,7 +158,7 @@ applied to the buffer."
   :man-page "docker-network-ls"
   ["Arguments"
    ("d" "Dangling" "--filter dangling=true")
-   ("f" "Filter" "--filter " read-string)
+   ("f" "Filter" "--filter=" :history-key docker-network-filter :multi-value repeat)
    ("n" "Don't truncate" "--no-trunc")]
   ["Actions"
    ("l" "List" tablist-revert)])
