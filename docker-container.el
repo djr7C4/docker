@@ -183,7 +183,7 @@ Also note if you do not specify `docker-container-exec-default-args', they will 
 
 (defun docker-container-read-name ()
   "Read an container name."
-  (completing-read "Container: " (-map #'car (aio-wait-for (docker-container-entries)))))
+  (completing-read "Container: " (-map #'car (aio-wait-for (docker-container-entries))) nil t nil docker-container-name-history))
 
 (defvar eshell-buffer-name)
 
@@ -421,12 +421,15 @@ default directory set to workdir."
   (--each (docker-utils-get-marked-items-ids)
     (docker-container-find-file it path)))
 
+(defvar docker-container-name-history nil
+  "History for Docker container names.")
+
 (aio-defun docker-container-rename-selection ()
   "Rename containers."
   (interactive)
   (docker-utils-ensure-items)
   (--each (docker-utils-get-marked-items-ids)
-    (aio-await (docker-run-docker-async "rename" it (read-string (format "Rename \"%s\" to: " it)))))
+    (aio-await (docker-run-docker-async "rename" it (read-string (format "Rename \"%s\" to: " it) nil 'docker-container-name-history))))
   (tablist-revert))
 
 (defun docker-container-shell-selection (prefix)
@@ -548,7 +551,7 @@ default directory set to workdir."
 
 (defun docker-container-exec-selection (command)
   "Run \"docker container exec\" with COMMAND on the containers selection."
-  (interactive "sCommand: ")
+  (interactive (list (read-string "Command: " nil 'docker-container-command-history)))
   (docker-utils-ensure-items)
   (--each (docker-utils-get-marked-items-ids)
     (docker-run-docker-async-with-buffer-interactive "container" "exec" (transient-args 'docker-container-exec) it command)))

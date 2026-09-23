@@ -33,6 +33,9 @@
 (require 'tablist)
 (require 'transient)
 
+(defvar docker-container-command-history nil
+  "History for commands run in Docker containers.")
+
 (defun docker-utils-get-marked-items-ids ()
   "Get the id part of `tablist-get-marked-items'."
   (-map #'car (tablist-get-marked-items)))

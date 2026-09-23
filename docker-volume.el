@@ -130,9 +130,12 @@ The result is the tabulated list id for an entry is propertized with
   (docker-utils-refresh-entries
    (docker-volume-entries-propertized (docker-volume-ls-arguments))))
 
+(defvar docker-volume-history nil
+  "History of Docker volumes.")
+
 (defun docker-volume-read-name ()
   "Read a volume name."
-  (completing-read "Volume: " (-map #'car (aio-wait-for (docker-volume-entries)))))
+  (completing-read "Volume: " (-map #'car (aio-wait-for (docker-volume-entries))) nil t nil 'docker-volume-history))
 
 ;;;###autoload (autoload 'docker-volume-dired "docker-volume" nil t)
 (aio-defun docker-volume-dired (name)
