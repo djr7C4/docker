@@ -402,7 +402,7 @@ applied to the buffer."
    ("f" "Platform" "--platform=" :always-read t :history-key docker-container-platform)
    ("i" "Interactive" "-i")
    ("l" "Link" "--link=" :history-key docker-container-link :multi-value repeat)
-   ("m" "Name" "--name=" :always-read t :history-key docker-container-name)
+   ("m" "Name" "--name=" :always-read t :history-key docker-container-name-history)
    ("n" "Entrypoint" "--entrypoint=" :always-read t :history-key docker-container-entrypoint)
    ("o" "Read only" "--read-only")
    ("p" "Port" "-p=" :history-key docker-container-port :multi-value repeat)

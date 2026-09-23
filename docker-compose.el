@@ -237,7 +237,7 @@
   :value '("--rm")
   ["Arguments"
    ("E" "Entrypoint" "--entrypoint=" :always-read t :history-key docker-container-entrypoint)
-   ("N" "Name" "--name=" :always-read t :history-key docker-container-name)
+   ("N" "Name" "--name=" :always-read t :history-key docker-container-name-history)
    ("T" "Disable pseudo-tty" "-T")
    ("d" "Detach" "-d")
    ("e" "Env KEY=VAL" "-e=" :history-key docker-container-environment :multi-value repeat)
