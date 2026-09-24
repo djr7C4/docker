@@ -507,7 +507,7 @@ default directory set to workdir."
   :man-page "docker-container-attach"
   ["Arguments"
    ("n" "No STDIN" "--no-stdin")
-   ("d" "Key sequence for detaching" "--detach-keys=" :always-read t :history-key docker-container-detach-keys)]
+   ("d" "Key sequence for detaching" "--detach-keys " :class docker-option :history-key docker-container-detach-keys)]
   [:description docker-generic-action-description
    ("a" "Attach" docker-generic-action-with-buffer-interactive)])
 
@@ -538,11 +538,11 @@ default directory set to workdir."
   ["Arguments"
    ("P" "Privileged" "--privileged")
    ("d" "Detach" "-d")
-   ("e" "Env KEY=VAL" "-e=" :history-key docker-container-environment :multi-value repeat)
+   ("e" docker-option-env)
    ("i" "Interactive" "-i")
    ("t" "TTY" "-t")
-   ("u" "User" "-u=" :always-read t :history-key docker-container-user)
-   ("w" "Workdir" "-w=" :always-read t :history-key docker-container-workdir)]
+   ("u" docker-option-u)
+   ("w" docker-option-w)]
   [:description docker-generic-action-description
    ("E" "Exec" docker-container-exec-selection)])
 
@@ -563,7 +563,7 @@ default directory set to workdir."
   "Transient for kill signaling containers"
   :man-page "docker-container-kill"
   ["Arguments"
-   ("s" "Signal" "-s=" :always-read t :history-key docker-container-signal)]
+   ("s" "Signal" "-s " :class docker-option :history-key docker-container-signal)]
   [:description docker-generic-action-description
    ("K" "Kill" docker-generic-action-multiple-ids)])
 
@@ -581,9 +581,9 @@ ACTION is the docker action, ARGS are the transient arguments."
   :man-page "docker-container-logs"
   ["Arguments"
    ("f" "Follow" "-f")
-   ("s" "Since" "--since=" :always-read t :history-key docker-logs-since)
-   ("t" "Tail" "--tail=" :always-read t :history-key docker-logs-tail)
-   ("u" "Until" "--until=" :always-read t :history-key docker-logs-until)]
+   ("s" "Since" "--since " :class docker-option :history-key docker-logs-since)
+   ("t" docker-option-tail)
+   ("u" "Until" "--until " :class docker-option :history-key docker-logs-until)]
   [:description docker-generic-action-description
    ("L" "Logs" docker-container-logs-action)])
 
@@ -594,10 +594,10 @@ ACTION is the docker action, ARGS are the transient arguments."
   :man-page "docker-container-ls"
   :value '("--all")
   ["Arguments"
-   ("N" "Last" "--last " transient-read-number-N0)
+   ("N" "Last" "--last " transient-read-number-N0 :class docker-option)
    ("a" "All" "--all")
-   ("e" "Exited containers" "--filter status=exited")
-   ("f" "Filter" "--filter=" :history-key docker-container-filter :multi-value repeat)
+   ("e" "Exited containers" "--filter=status=exited")
+   ("f" "Filter" "--filter " :class docker-option :multi-value repeat :history-key docker-container-filter)
    ("n" "Don't truncate" "--no-trunc")]
   ["Actions"
    ("l" "List" tablist-revert)])
@@ -618,7 +618,7 @@ ACTION is the docker action, ARGS are the transient arguments."
   "Transient for restarting containers."
   :man-page "docker-container-restart"
   ["Arguments"
-   ("t" "Timeout" "-t " transient-read-number-N0)]
+   ("t" "Timeout" "-t " transient-read-number-N0 :class docker-option)]
   [:description docker-generic-action-description
    ("R" "Restart" docker-generic-action-multiple-ids)])
 
@@ -655,7 +655,7 @@ ACTION is the docker action, ARGS are the transient arguments."
   "Transient for stoping containers."
   :man-page "docker-container-stop"
   ["Arguments"
-   ("t" "Timeout" "-t " transient-read-number-N0)]
+   ("t" "Timeout" "-t " transient-read-number-N0 :class docker-option)]
   [:description docker-generic-action-description
    ("O" "Stop" docker-generic-action-multiple-ids)])
 

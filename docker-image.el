@@ -332,8 +332,8 @@ applied to the buffer."
   :man-page "docker-image-ls"
   ["Arguments"
    ("a" "All" "--all")
-   ("d" "Dangling" "--filter dangling=true")
-   ("f" "Filter" "--filter=" :history-key docker-image-filter :multi-value repeat)
+   ("d" "Dangling" "--filter=dangling=true")
+   ("f" "Filter" "--filter " :class docker-option :multi-value repeat :history-key docker-image-filter)
    ("n" "Don't truncate" "--no-trunc")]
   ["Actions"
    ("l" "List" tablist-revert)])
@@ -385,27 +385,27 @@ applied to the buffer."
   :man-page "docker-image-run"
   :class 'docker-image-run-prefix
   ["Arguments"
-   ("D" "With display" "-v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY")
-   ("M" "Mount volume" "--mount=" :history-key docker-container-mount :multi-value repeat)
-   ("N" "Network" "--network=" :always-read t :history-key docker-container-network)
+   ("D" "With display" "-v=/tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY")
+   ("M" "Mount volume" "--mount " :class docker-option :multi-value repeat :history-key docker-container-mount)
+   ("N" "Network" "--network " :class docker-option :multi-value repeat :history-key docker-container-network)
    ("P" "Privileged" "--privileged")
-   ("T" "Synchronize time" "-v /etc/localtime:/etc/localtime:ro")
-   ("W" "Web ports" "-p 80:80 -p 443:443 -p 8080:8080")
+   ("T" "Synchronize time" "-v=/etc/localtime:/etc/localtime:ro")
+   ("W" "Web ports" "-p=80:80 -p=443:443 -p=8080:8080")
    ("d" "Detach" "-d")
-   ("e" "Env KEY=VAL" "-e=" :history-key docker-container-environment :multi-value repeat)
-   ("f" "Platform" "--platform=" :always-read t :history-key docker-container-platform)
+   ("e" docker-option-env)
+   ("f" "Platform" "--platform " :class docker-option :history-key docker-container-platform)
    ("i" "Interactive" "-i")
-   ("l" "Link" "--link=" :history-key docker-container-link :multi-value repeat)
-   ("m" "Name" "--name=" :always-read t :history-key docker-container-name-history)
-   ("n" "Entrypoint" "--entrypoint=" :always-read t :history-key docker-container-entrypoint)
+   ("l" "Link" "--link " :class docker-option :multi-value repeat :history-key docker-container-link)
+   ("m" docker-option-name)
+   ("n" docker-option-entrypoint)
    ("o" "Read only" "--read-only")
-   ("p" "Port" "-p=" :history-key docker-container-port :multi-value repeat)
+   ("p" "Port" "-p " :class docker-option :multi-value repeat :history-key docker-container-port)
    ("r" "Remove container when it exits" "--rm")
    ("t" "TTY" "-t")
-   ("u" "User" "-u=" :always-read t :history-key docker-container-user)
-   ("v" "Volume" "-v=" :history-key docker-container-volume :multi-value repeat)
-   ("w" "Workdir" "-w=" :always-read t :history-key docker-container-workdir)
-   ("x" "Runtime" "--runtime=" docker-image-read-runtime :always-read t :history-key docker-container-runtime)]
+   ("u" docker-option-u)
+   ("v" "Volume" "-v " :class docker-option :multi-value repeat :history-key docker-container-volume)
+   ("w" docker-option-w)
+   ("x" "Runtime" "--runtime " docker-image-read-runtime :class docker-option :history-key docker-container-runtime)]
   [:description docker-generic-action-description
    ("R" "Run" docker-image-run-selection)])
 
