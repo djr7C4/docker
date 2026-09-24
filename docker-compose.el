@@ -271,7 +271,7 @@
   :man-page "docker-compose up"
   ["Arguments"
    ("b" "Build" "--build")
-   ("c" "Scale" "--scale " transient-read-number-N0)
+   ("c" "Scale SERVICE=NUM" "--scale " :class docker-option :multi-value repeat :history-key docker-compose-scale)
    ("d" "Detach" "-d")
    ("f" "Force recreate" "--force-recreate")
    ("n" "No deps" "--no-deps")
