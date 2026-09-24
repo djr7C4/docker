@@ -74,10 +74,14 @@ separated by \"|\".")
 Empty input unsets the option."
   (let* ((enable-recursive-minibuffers t)
          (repeat (eq (oref obj multi-value) 'repeat))
-         (value (oref obj value))
-         (initial-input (if repeat (and value (string-join value " | ")) value))
+         (key (or (oref obj history-key) (oref obj command)))
+         (history (alist-get key transient-history))
+         (value (or (oref obj value)
+                    (and transient-read-with-initial-input
+                         (string-split (car history) "|"))))
+         (initial-input (if repeat (and value (string-join value "|")) value))
          (reader (or (oref obj reader) #'docker-option-read-string))
-         (input (docker-utils-with-history (or (oref obj history-key) (oref obj command))
+         (input (docker-utils-with-history key
                                            (lambda (history)
                                              (funcall reader (transient-prompt obj) initial-input history)))))
     (cond ((not (stringp input)) input)
