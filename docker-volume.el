@@ -132,7 +132,7 @@ The result is the tabulated list id for an entry is propertized with
 
 (defun docker-volume-read-name ()
   "Read a volume name."
-  (completing-read "Volume: " (-map #'car (aio-wait-for (docker-volume-entries)))))
+  (docker-utils-completing-read "Volume: " (-map #'car (aio-wait-for (docker-volume-entries))) 'docker-volume-name))
 
 ;;;###autoload (autoload 'docker-volume-dired "docker-volume" nil t)
 (aio-defun docker-volume-dired (name)
@@ -169,8 +169,8 @@ applied to the buffer."
   "Transient for listing volumes."
   :man-page "docker-volume-ls"
   ["Arguments"
-   ("d" "Dangling" "--filter dangling=true")
-   ("f" "Filter" "--filter " read-string)]
+   ("d" "Dangling" "--filter=dangling=true")
+   ("f" "Filter" "--filter " :class docker-option :multi-value repeat :history-key docker-volume-filter)]
   ["Actions"
    ("l" "List" tablist-revert)])
 
