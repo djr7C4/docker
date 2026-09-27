@@ -108,28 +108,16 @@ from the last history entry instead.  Empty input unsets the option."
   :multi-value 'repeat
   :history-key 'docker-container-environment)
 
-(transient-define-infix docker-option-u ()
+(transient-define-infix docker-option-user ()
   :description "User"
   :class 'docker-option
   :argument "-u "
   :history-key 'docker-container-user)
 
-(transient-define-infix docker-option-user ()
-  :description "User"
-  :class 'docker-option
-  :argument "--user "
-  :history-key 'docker-container-user)
-
-(transient-define-infix docker-option-w ()
-  :description "Workdir"
-  :class 'docker-option
-  :argument "-w "
-  :history-key 'docker-container-workdir)
-
 (transient-define-infix docker-option-workdir ()
   :description "Workdir"
   :class 'docker-option
-  :argument "--workdir "
+  :argument "-w "
   :history-key 'docker-container-workdir)
 
 (transient-define-infix docker-option-entrypoint ()
@@ -155,6 +143,12 @@ from the last history entry instead.  Empty input unsets the option."
   :class 'docker-option
   :argument "--tail "
   :history-key 'docker-logs-tail)
+
+(transient-define-infix docker-option-timeout ()
+  :description "Timeout"
+  :class 'docker-option
+  :argument "-t "
+  :reader #'transient-read-number-N0)
 
 (defun docker-utils-get-marked-items-ids ()
   "Get the id part of `tablist-get-marked-items'."

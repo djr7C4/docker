@@ -402,9 +402,9 @@ applied to the buffer."
    ("p" "Port" "-p " :class docker-option :multi-value repeat :history-key docker-container-port)
    ("r" "Remove container when it exits" "--rm")
    ("t" "TTY" "-t")
-   ("u" docker-option-u)
+   ("u" docker-option-user)
    ("v" "Volume" "-v " :class docker-option :multi-value repeat :history-key docker-container-volume)
-   ("w" docker-option-w)
+   ("w" docker-option-workdir)
    ("x" "Runtime" "--runtime " docker-image-read-runtime :class docker-option :history-key docker-container-runtime)]
   [:description docker-generic-action-description
    ("R" "Run" docker-image-run-selection)])
