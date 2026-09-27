@@ -71,15 +71,15 @@ separated by \"|\".")
 
 (cl-defmethod transient-infix-read ((obj docker-option))
   "Read the value of OBJ, starting from its current value.
-Empty input unsets the option."
+When OBJ is unset and `transient-read-with-initial-input' is non-nil, start
+from the last history entry instead.  Empty input unsets the option."
   (let* ((enable-recursive-minibuffers t)
          (repeat (eq (oref obj multi-value) 'repeat))
          (key (or (oref obj history-key) (oref obj command)))
-         (history (alist-get key transient-history))
-         (value (or (oref obj value)
-                    (and transient-read-with-initial-input
-                         (string-split (car history) "|"))))
-         (initial-input (if repeat (and value (string-join value "|")) value))
+         (value (oref obj value))
+         (initial-input (cond ((and value repeat) (string-join value "|"))
+                              (value)
+                              (transient-read-with-initial-input (car (alist-get key transient-history)))))
          (reader (or (oref obj reader) #'docker-option-read-string))
          (input (docker-utils-with-history key
                                            (lambda (history)
