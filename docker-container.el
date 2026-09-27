@@ -541,8 +541,8 @@ default directory set to workdir."
    ("e" docker-option-env)
    ("i" "Interactive" "-i")
    ("t" "TTY" "-t")
-   ("u" docker-option-u)
-   ("w" docker-option-w)]
+   ("u" docker-option-user)
+   ("w" docker-option-workdir)]
   [:description docker-generic-action-description
    ("E" "Exec" docker-container-exec-selection)])
 
@@ -618,7 +618,7 @@ ACTION is the docker action, ARGS are the transient arguments."
   "Transient for restarting containers."
   :man-page "docker-container-restart"
   ["Arguments"
-   ("t" "Timeout" "-t " transient-read-number-N0 :class docker-option)]
+   ("t" docker-option-timeout)]
   [:description docker-generic-action-description
    ("R" "Restart" docker-generic-action-multiple-ids)])
 
@@ -655,7 +655,7 @@ ACTION is the docker action, ARGS are the transient arguments."
   "Transient for stoping containers."
   :man-page "docker-container-stop"
   ["Arguments"
-   ("t" "Timeout" "-t " transient-read-number-N0 :class docker-option)]
+   ("t" docker-option-timeout)]
   [:description docker-generic-action-description
    ("O" "Stop" docker-generic-action-multiple-ids)])
 

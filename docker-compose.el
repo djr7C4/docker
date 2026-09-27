@@ -169,7 +169,7 @@ Only complete files matching PREDICATE, if non-nil."
   :man-page "docker-compose down"
   ["Arguments"
    ("o" "Remove orphans" "--remove-orphans")
-   ("t" "Timeout" "--timeout " transient-read-number-N0 :class docker-option)
+   ("t" docker-option-timeout)
    ("v" "Remove volumes" "--volumes")]
   ["Actions"
    ("W" "Down" docker-compose-run-action-for-one-service)
@@ -224,7 +224,7 @@ Only complete files matching PREDICATE, if non-nil."
   "Transient for \"docker-compose restart\"."
   :man-page "docker-compose restart"
   ["Arguments"
-   ("t" "Timeout" "--timeout " transient-read-number-N0 :class docker-option)]
+   ("t" docker-option-timeout)]
   ["Actions"
    ("T" "Restart" docker-compose-run-action-for-one-service)
    ("A" "All services" docker-compose-run-action-for-all-services)])
@@ -270,7 +270,7 @@ Only complete files matching PREDICATE, if non-nil."
   "Transient for \"docker-compose stop\"."
   :man-page "docker-compose stop"
   ["Arguments"
-   ("t" "Timeout" "--timeout " transient-read-number-N0 :class docker-option)]
+   ("t" docker-option-timeout)]
   ["Actions"
    ("O" "Stop" docker-compose-run-action-for-one-service)
    ("A" "All services" docker-compose-run-action-for-all-services)])
@@ -286,7 +286,7 @@ Only complete files matching PREDICATE, if non-nil."
    ("n" "No deps" "--no-deps")
    ("q" "Quiet pull" "--quiet-pull")
    ("r" "Remove orphans" "--remove-orphans")
-   ("t" "Timeout" "--timeout " transient-read-number-N0 :class docker-option)]
+   ("t" docker-option-timeout)]
   ["Actions"
    ("U" "Up" docker-compose-run-action-for-one-service)
    ("A" "All services" docker-compose-run-action-for-all-services)])
